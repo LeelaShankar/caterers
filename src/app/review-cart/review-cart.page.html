@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cart
+      <ion-icon name="close" style="float: right;" (click)="dismiss()"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-label style="text-align: center;">
+          {{packageName}}
+        </ion-label>
+      </ion-list>
+      <ion-list>
+        <ion-label>
+          Dates: &nbsp; {{startDate}} - {{endDate}}
+        </ion-label>
+      </ion-list>
+      <ion-list>
+        <ion-label>Quantity: &nbsp;&nbsp; {{quantity}}</ion-label>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-label>Selected Items</ion-label>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngFor="let package of packages">
+        <ion-label> {{package.key}} : &nbsp; {{package[package.key]}} </ion-label>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-label> Price: &nbsp; {{price}}</ion-label>
+      </ion-list>
+      <ion-list>
+        <ion-label> GST : &nbsp; {{0.18*price}} </ion-label>
+      </ion-list>
+      <ion-item>
+        <ion-label position="floating">
+          GSTIN
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="gstNumber"></ion-input>
+      </ion-item>
+      <ion-list>
+        <ion-label> Total price : &nbsp; {{(0.18*price) + price}} </ion-label>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="pay()"> Pay </ion-button>
+</ion-footer>

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Select Package</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-slides [options]="sliderOpts" #slider (ionSlideDidChange)="slideChanged(slider)">
+      <ion-slide *ngFor="let caterer of caterers">
+        <img src="http://142.93.219.123:3000/kitchenmenus/South_Indian_Meals.jpg" style="width: 100px;height: 100px;" />
+        <h1>{{caterer.CatererName}}</h1>
+      </ion-slide>
+    </ion-slides>
+  </ion-card>
+  <ion-card *ngFor="let package of packages">
+    <ion-item (click)="navigate(package)">
+      <ion-img [src]="package.menuimage" style="height: 100px;width: 100px;">
+      </ion-img>
+      <ion-list>
+        <ion-item lines="none">
+          <ion-label>
+            {{package.packagename}}
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>
+            <ion-note *ngIf="package.offerprice==0">
+              {{package.menuprice}}
+            </ion-note>
+            <ion-note *ngIf="package.offerprice>0">
+              <s>
+                <b>{{package.menuprice}}</b> </s> &nbsp;&nbsp; <b>{{package.offerprice}}</b>
+            </ion-note>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+    </ion-item>
+  </ion-card>
+
+
+</ion-content>
