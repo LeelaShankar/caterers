@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import * as moment from 'moment';
 import { uuid } from 'uuidv4';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-review-cart',
   templateUrl: './review-cart.page.html',
@@ -15,7 +16,7 @@ export class ReviewCartPage implements OnInit {
   quantity: any;
   price: any;
   gstNumber: string = ''
-  constructor(public modalctrl: ModalController, public navParams: NavParams) { }
+  constructor(public modalctrl: ModalController, public navParams: NavParams, public http: HttpClient) { }
 
   ngOnInit() {
   }
@@ -53,9 +54,8 @@ export class ReviewCartPage implements OnInit {
     let self = this;
     let data = this.navParams.data;
     let selectedPackage = data.cater.Packages.filter(x => x.packageid == data.packageId);
-
     let paramsObj = data.params;
-    let c = []
+    let c = [];
     paramsObj.data.map(x => {
       let b = ''
       Object.keys(x).map(y => {
@@ -66,9 +66,9 @@ export class ReviewCartPage implements OnInit {
       })
       let ab = {}
       ab['menuid'] = uuid();
-      ab['deliveryDate'] = x['deliverydate'];
+      ab['deliveryDate'] = moment(x['deliverydate'], 'DD-MM-YYYY').format('YYYY-MM-DD'); //x['deliverydate'] 
       ab['packagePrice'] = self.price / data.quantity;
-      ab['vegnonveg'] = selectedPackage[0].vegnonveg;
+      ab['vegnonveg'] = selectedPackage[0].packagetype;
       ab['status'] = 'InProgress';
       ab['ismodified'] = "";
       ab['modifiedDate'] = ''
@@ -76,22 +76,21 @@ export class ReviewCartPage implements OnInit {
       c.push(ab)
     })
     console.log('cccccccccc', c)
-
     let params = {};
     params['orderno'] = uuid();
-    params['orderedby'] = localStorage.getItem('customerId');
+    params['orderedby'] = localStorage.getItem('customerId') || 'abcdefgh';
     params['customername'] = localStorage.getItem('customername');
     params['customercontactno'] = localStorage.getItem('customerPhno');
     params['deliveryaddress'] = [];
     params['orderstatus'] = 'booked';
     params['ordertotal'] = this.price + 0.18 * this.price;
     params['voucher'] = '';
-    params['kitchenuserId'] = '';
+    params['kitchenuserId'] = data.cater.UserId;
     params['discount'] = 0;
     params['kitchenuserphone'] = '';
     params['SpecialInstructions'] = [];
     params['packageDetail'] = [{
-      'packageType': selectedPackage[0].vegnonveg,
+      'packageType': selectedPackage[0].packagetype,
       'packageid': data.packageId,
       'selectedpackageitems': c
     }],
@@ -103,6 +102,11 @@ export class ReviewCartPage implements OnInit {
     params['endDate'] = this.endDate;
     params['serveQuantity'] = data.quantity;
     console.log('paramssss', params)
+    this.http.post('http://139.59.95.63:3000/api/homekitchenbulk/', params).subscribe(res => {
+      console.log('resss', res)
+    }, err => {
+      console.log('errr', err)
+    })
   }
 
 }

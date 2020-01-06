@@ -27,13 +27,19 @@ export class PackagePage implements OnInit {
 
   ionViewDidEnter() {
     let self = this;
-    this.http.get('http://142.93.219.123:3000/caterers/').subscribe((resp: any) => {
-      self.caterers = resp.allCaterers;
+    this.http.get('http://139.59.95.63:3000/mykitchen/').subscribe((resp: any) => {
+      self.caterers = resp.allKitchens;
       console.log('repppp', resp, 'cateree', self.caterers)
       self.getPackageDetails(self.caterers[0]._id)
     })
   }
 
+  onKitchenSelection(i) {
+    this.getPackageDetails(this.caterers[i]._id)
+  }
+  onProfileClick(i) {
+    console.log('in iii', i)
+  }
   slideChanged(slider) {
     let self = this;
     let id: string = ''
@@ -49,9 +55,9 @@ export class PackagePage implements OnInit {
 
   getPackageDetails(id) {
     let self = this;
-    this.http.get('http://142.93.219.123:3000/catererpackages/' + id).subscribe((res: any) => {
+    this.http.get('http://139.59.95.63:3000/api/kitchenpackage/' + id).subscribe((res: any) => {
       self.caterData = res;
-      self.packages = res.selectedCaterer[0].Packages;
+      self.packages = res.KitchenPackages[0].Packages;
       console.log('resss', res)
     })
   }

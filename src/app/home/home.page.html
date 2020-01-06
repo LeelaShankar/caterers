@@ -79,8 +79,9 @@
         </ion-row>
         <ion-list *ngIf="expandedItems[pName]" style="width: 100%;">
           <ion-item *ngFor="let item of packages[pName]">
-            <ion-label>
-              {{item.item}}
+            <ion-label style="white-space: normal;">
+              {{item.item}} <br>
+              {{item.menudescription}}
             </ion-label>
             <ion-checkbox style="float: right;" #checkbox (ionChange)="valChanged(pName,item,checkbox)"
               [checked]="item.check">

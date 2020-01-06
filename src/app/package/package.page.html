@@ -1,18 +1,34 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Select Package</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-slides [options]="sliderOpts" #slider (ionSlideDidChange)="slideChanged(slider)">
+  <!-- <ion-card> -->
+  <!-- <ion-slides [options]="sliderOpts" #slider (ionSlideDidChange)="slideChanged(slider)">
       <ion-slide *ngFor="let caterer of caterers">
         <img src="http://142.93.219.123:3000/kitchenmenus/South_Indian_Meals.jpg" style="width: 100px;height: 100px;" />
         <h1>{{caterer.CatererName}}</h1>
       </ion-slide>
+    </ion-slides> -->
+
+  <div>
+    <ion-slides #kitchenSlides (ionSlideDidChange)="slideChanged(kitchenSlides)">
+      <ion-slide *ngFor="let kitchen of caterers; let i = index;">
+        <div class="cheficon">
+          <img src="assets/imgs/chef.png" (click)="onKitchenSelection(i)" style="width:50px" />
+          <span style="font-size:12px; display: block;" (click)="onKitchenSelection(i)">{{kitchen?.KitchenName}}</span>
+          <span style="font-size:11px; color:dodgerblue; display: block;" (click)="onProfileClick(i)">VIEW
+            PROFILE</span>
+        </div>
+      </ion-slide>
     </ion-slides>
-  </ion-card>
+  </div>
+  <!-- </ion-card> -->
   <ion-card *ngFor="let package of packages">
     <ion-item (click)="navigate(package)">
       <ion-img [src]="package.menuimage" style="height: 100px;width: 100px;">

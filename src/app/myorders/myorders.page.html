@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="!showCalendar">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-icon *ngIf="showCalendar" name="arrow-round-back" style="float: left;margin-right: 20px;"
+        (click)="backButtonClicked()">
+      </ion-icon>
+      My Orders
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let order of bulkOrders">
+    <ion-card-content (click)="openCalendar(order)" *ngIf="!orderClicked">
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-item>
+              <ion-label position="floating">Order No:</ion-label>
+              <ion-input type="text" readOnly [value]="order.orderno"></ion-input>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label position="floating">PaymentMode</ion-label>
+              <ion-input type="text" readOnly [value]="order.PaymentMode"></ion-input>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label position="floating">Order Status</ion-label>
+              <ion-input type="text" readOnly [value]="order.orderstatus"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row>
+            <ion-item>
+              <ion-label position="floating">Order Startdate</ion-label>
+              <ion-input type="text" readOnly [value]="order.startDate"></ion-input>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label position="floating">Order Enddate</ion-label>
+              <ion-input type="text" readOnly [value]="order.endDate"></ion-input>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label position="floating">Amount</ion-label>
+              <ion-input type="text" readOnly [value]="order.ordertotal"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="orderClicked">
+    <table style="width:100%">
+      <thead>
+        <tr>
+          <th *ngFor="let day of days"> <label>{{day}}</label> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let date of dates">
+          <td *ngFor="let day of days" style="width:10%">
+            <div *ngIf="date[day]" [class]="getClass(date[day])" (click)="showDetails(date[day],date)">
+              <label>
+                {{date[day].Date}}
+              </label>
+              <br />
+              {{date[day].Month}}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-card>
+
+  <ion-card *ngIf="showChefData" style="border: 1px solid gray;border-radius: 5px">
+    <ion-card-content>
+      <ion-row>
+        <ion-col class="selectedSlot">
+          <ion-item lines="none" position="floating">
+            <ion-label>
+              Selected Menu
+            </ion-label>
+            <ion-input type="text" readOnly [value]="selectedmenu">
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none" position="floating">
+            <ion-label>
+              Status
+            </ion-label>
+            <ion-input type="text" readOnly [value]="menuStatus"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>

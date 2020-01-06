@@ -33,22 +33,22 @@ export class HomePage {
     let self = this;
     let data = this.navParams.data;
     console.log('dataa', data)
-    self.caterData = data.data.selectedCaterer[0];
+    self.caterData = data.data.KitchenPackages[0];
     let selectedPackage = self.caterData.Packages.filter(x => x.packageid == data.package);
     self.pageheader = selectedPackage[0].packagename;
     let menus = (selectedPackage[0].standardmenuoptions && selectedPackage[0].standardmenuoptions.filter(x => x.quantity > 0)) || [];
     self.menus = menus;
     let menuItems: Array<any> = [];
     menus.map(x => {
-      menuItems.push(x.menuitemcategory)
-      self.packageCountcheck[x.menuitemcategory] = x.quantity
+      menuItems.push(x.categoryname)
+      self.packageCountcheck[x.categoryname] = x.quantity
     })
     let packages: Array<any> = [];
     self.caterData.Menus.map(x => {
       packages.push(x.menucategory)
       if (menuItems.includes(x.menucategory)) {
         if (!self.packages[x.menucategory]) self.packages[x.menucategory] = []
-        self.packages[x.menucategory].push({ item: x.menuitemname, check: false })
+        self.packages[x.menucategory].push({ item: x.menuname, check: false, menudescription: x.menudescription })
       };
     });
     self.packageNames = Object.keys(self.packages)
@@ -76,7 +76,7 @@ export class HomePage {
     let self = this;
     let counter = 0
     let quantityCheck: any;
-    let filteredMenus = this.menus.filter(x => x.menuitemcategory == pname)
+    let filteredMenus = this.menus.filter(x => x.categoryname == pname)
     quantityCheck = filteredMenus[0].quantity;
     this.packages[pname].map(x => {
       if (x.check) {
@@ -180,7 +180,7 @@ export class HomePage {
     self.packagePrice = (this.quantity || 0) * price;
   }
   getQuantity(pname) {
-    let a = this.menus.filter(x => x.menuitemcategory == pname)
+    let a = this.menus.filter(x => x.categoryname == pname)
     return a[0].quantity;
   }
   async openModal(paramsObj, filPackages) {

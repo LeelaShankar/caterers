@@ -1,0 +1,44 @@
+tbody:before {
+    content: '@';
+    display: block;
+    line-height: 10px;
+    text-indent: -99999px;
+}
+
+table {
+    border-spacing: 10px;
+    border-collapse: unset;
+}
+
+ion-button {
+    --background: red;
+    --border-color: red;
+    --color: white;
+    --border: 1px solid red;
+}
+
+.selectedSlot {
+    ion-item {}
+}
+
+.previousDate {
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: grey;
+    color: black;
+}
+
+.currentDate {
+    text-align: center;
+    border: 1px solid red;
+    border-radius: 5px;
+    background-color: white;
+    color: red;
+}
+
+.otherDate {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+}
